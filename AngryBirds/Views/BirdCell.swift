@@ -20,10 +20,16 @@ class BirdCell: UITableViewCell {
             self.birdDescriptionLael.text = bird?.description
             self.accessoryType = bird!.confirmedSighting ? .checkmark : .none
             
+            // Added default image
+            // could also load an image into project, and use that for more reliability without internet
+            var defaultImage = NSData(contentsOf: URL(string: "https://cdn.iconscout.com/icon/premium/png-256-thumb/website-not-found-3123513-2619679.png" )!)
+            
             DispatchQueue.global(qos: .userInitiated).async {
                 let birdImageData = NSData(contentsOf: URL(string: self.bird!.imageUrl)!)
                 DispatchQueue.main.async {
-                    self.birdImageView.image = UIImage(data: birdImageData as! Data)
+                    
+                    // Use default image here
+                    self.birdImageView.image = UIImage(data: (birdImageData as? Data ?? defaultImage as! Data))
                     self.birdImageView.layer.cornerRadius = self.birdImageView.frame.width / 2
                 }
             }
